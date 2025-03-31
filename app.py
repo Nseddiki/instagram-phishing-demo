@@ -215,12 +215,12 @@ def generate_fake_link():
     return real_looking_link, shortened_link, actual_link, random_string
 
 def craft_phishing_message(shortened_link, actual_link):
-    """Craft a convincing WhatsApp phishing message in English with the actual link."""
+    """Craft a convincing WhatsApp phishing message with a single clickable link."""
     message = f"""Hello,
 
 We detected a suspicious login attempt on your Instagram account. To avoid account suspension, please verify your identity using the link below within 24 hours:
 
-{shortened_link} ({actual_link})
+{actual_link}
 
 Instagram Security Team"""
     return message
